@@ -68,7 +68,7 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
         COMPATIBILITY AnyNewerVersion
     )
 
-    configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cereal-config.cmake
+    configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cmake/cerealConfig.cmake.in
         ${CMAKE_CURRENT_BINARY_DIR}/cerealConfig.cmake
         INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
     )
