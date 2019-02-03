@@ -38,11 +38,45 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
     )
-    install(TARGETS cereal EXPORT cereal
-        DESTINATION lib) # ignored
-    install(EXPORT cereal FILE cereal-config.cmake
-        DESTINATION share/cmake/cereal)
-    install(DIRECTORY include/cereal DESTINATION include)
+    
+    include(GNUInstallDirs)
+    include(CMakePackageConfigHelpers)
+    
+    set(INSTALL_CONFIGDIR ${CMAKE_INSTALL_LIBDIR}/cmake/cereal)
+
+    install(TARGETS cereal
+        EXPORT cereal-targets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
+
+    install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+    install(EXPORT cereal-targets
+      FILE
+        cerealTargets.cmake
+      NAMESPACE
+        cereal::
+      DESTINATION
+        ${INSTALL_CONFIGDIR}
+    )
+    
+    write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/cerealConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY AnyNewerVersion
+    )
+
+    configure_package_config_file(${CMAKE_CURRENT_LIST_DIR}/cereal-config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/cerealConfig.cmake
+        INSTALL_DESTINATION ${INSTALL_CONFIGDIR}
+    )
+
+    install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/cerealConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/cerealConfigVersion.cmake
+        DESTINATION ${INSTALL_CONFIGDIR}
+    )
 endif()
 
 if(JUST_INSTALL_CEREAL)
