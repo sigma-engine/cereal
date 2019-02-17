@@ -1,7 +1,7 @@
 get_filename_component(cereal_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
 
 if(NOT TARGET cereal::cereal)
-    include("${cmaketherightway_CMAKE_DIR}/cerealTargets.cmake")
+    include("${cereal_CMAKE_DIR}/cerealTargets.cmake")
 endif()
 
 set(cereal_LIBRARIES cereal::cereal)
